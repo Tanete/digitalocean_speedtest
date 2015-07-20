@@ -8,19 +8,27 @@
 server_name=(
 	"New York City #1"
 	"New York City #2"
-	"San Francisco"
+	"New York City #3"
+	"San Francisco #1"
 	"Amsterdam #1"
 	"Amsterdam #2"
-	"Singapore"
+	"Amsterdam #3"
+	"Singapore #1"
+	"London #1"
+	"Francefort #1"
 )
 
 server_url=(
 	"http://speedtest-ny1.digitalocean.com/10mb.test"
 	"http://speedtest-nyc2.digitalocean.com/10mb.test"
+	"http://speedtest-nyc3.digitalocean.com/10mb.test"
 	"http://speedtest-sfo1.digitalocean.com/10mb.test"
 	"http://speedtest-ams1.digitalocean.com/10mb.test"
 	"http://speedtest-ams2.digitalocean.com/10mb.test"
+	"http://speedtest-ams3.digitalocean.com/10mb.test"
 	"http://speedtest-sgp1.digitalocean.com/10mb.test"
+	"http://speedtest-lon1.digitalocean.com/10mb.test"
+	"http://speedtest-fra1.digitalocean.com/10mb.test"
 )
 
 server_starttransfer=()
@@ -32,13 +40,13 @@ i=0
 # measure speed
 for s in "${server_name[@]}"
 do
-	echo "Measuring ${server_name[$i]} server download speed"	
+	echo "Measuring ${server_name[$i]} server download speed"
 	result=$(curl -o /dev/null --progress-bar -w "%{time_starttransfer} %{speed_download}" ${server_url[$i]})
-	
+
 	server_starttransfer[$i]=$(echo $result | cut -d " " -f 1)
 	server_speed_download[$i]=$(echo $result | cut -d " " -f 2)
 	server_speed_download[$i]=$(echo "scale=2; ${server_speed_download[$i]}/1024" | bc -l)
-	
+
 	echo ""
 	((i++))
 done
